@@ -637,8 +637,10 @@ priors <- data.frame(family = c("Normal", "t", "Cauchy", "Beta", "Exponential",
   graph <- ggplot(dat, aes(x = x, y = y, xend=c(tail(x, n=-1), NA), 
                            yend=c(tail(y, n=-1), NA)))
   } else {
+    # Add time variable for animation
+    dat$time <- 1:nrow(dat)
     graph <- ggplot(dat, aes(x = x, y = y, xend=c(tail(x, n=-1), NA), 
-                             yend=c(tail(y, n=-1), NA)),frame=1:nrow(dat))
+                             yend=c(tail(y, n=-1), NA),frame=time))
   }
   
   if (lines == "hide" || animate==TRUE) {
