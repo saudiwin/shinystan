@@ -27,7 +27,7 @@ alpha ~ exponential(2);
 } 
 '
 
-exfit <- stan(model_code = excode, save_dso = FALSE, iter = 500)
+exfit <- stan(model_code = excode, save_dso = FALSE, iter = 100,chains = 1)
 print(exfit)
 plot(exfit)
 
