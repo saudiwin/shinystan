@@ -638,6 +638,8 @@ priors <- data.frame(family = c("Normal", "t", "Cauchy", "Beta", "Exponential",
                            yend=c(tail(y, n=-1), NA)))
   } else {
     # Add time variable for animation
+    # high alpha slows down plot too much and isn't necessary with animation
+    pt_alpha <- 1
     dat$time <- 1:nrow(dat)
     graph <- ggplot(dat, aes(x = x, y = y, xend=c(tail(x, n=-1), NA), 
                              yend=c(tail(y, n=-1), NA),frame=time))
