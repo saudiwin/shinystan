@@ -13,6 +13,19 @@ shinyjs::hidden(
             actionButton("bivariate_transform_go", label = "Transform", class = "transform-go")
           )
         ),
+        hr(class="hroptions"),
+        fluidRow(
+          column(
+            width=3,
+            checkboxInput("bivariate_animate","Create bivariate graph animation?",value=FALSE)
+          ),
+          column(
+            width=3,
+            em("Warning: this function may take a long time to finish. It also requires installation of the gganimate package and the ImageMagick package. Also it can only plot one chain at a time.")
+          ),
+          column(
+            selectInput("bivariate_chains","Select chain to animate",choices=1:`.nChains`)
+          )), 
         hr(class = "hroptions"),
         selectInput(
           "bivariate_options_display",
@@ -23,11 +36,7 @@ shinyjs::hidden(
         ), 
         conditionalPanel(
           condition="input.bivariate_options_display== 'Animate?'",
-          fluidRow(
-            column(
-              width=3,
-              checkboxInput("bivariate_animate","Create bivariate graph animation?",value=FALSE)
-            )  
+           
           )
         ),
         conditionalPanel(
