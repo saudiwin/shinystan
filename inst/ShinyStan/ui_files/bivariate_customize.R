@@ -24,6 +24,7 @@ shinyjs::hidden(
             em("Warning: this function may take a long time to finish. It also requires installation of the gganimate package and the ImageMagick package. Also it can only plot one chain at a time.")
           ),
           column(
+            width=3,
             selectInput("bivariate_chains","Select chain to animate",choices=1:`.nChains`)
           )), 
         hr(class = "hroptions"),
@@ -34,11 +35,6 @@ shinyjs::hidden(
           selected = "Points",
           width = "50%"
         ), 
-        conditionalPanel(
-          condition="input.bivariate_options_display== 'Animate?'",
-           
-          )
-        ),
         conditionalPanel(
           condition = "input.bivariate_options_display == 'Points'",
           fluidRow(
