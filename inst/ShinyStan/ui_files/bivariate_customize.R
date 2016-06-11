@@ -22,7 +22,7 @@ shinyjs::hidden(
           width = "50%"
         ), 
         conditionalPanel(
-          condition="input.bivariate_options_dsiplay== 'Animate?'",
+          condition="input.bivariate_options_display== 'Animate?'",
           fluidRow(
             column(
               width=3,
