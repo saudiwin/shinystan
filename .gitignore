@@ -4,11 +4,10 @@
 .Rdata
 .Rproj.user
 shinystan.Rproj
-
 *.DS_Store
 inst/doc
 ^cran-comments\.md$
 cran-comments.md
-
 revdep/
 *.swf
+shinystan_develop.Rproj

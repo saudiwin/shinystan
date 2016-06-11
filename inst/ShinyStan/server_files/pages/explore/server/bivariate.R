@@ -56,7 +56,8 @@ bivariate_plot <- reactive({
       lines_color = input$bivariate_lines_color,
       lines_alpha = input$bivariate_lines_alpha,
       transform_x = bivariate_transform_x(),
-      transform_y = bivariate_transform_y()
+      transform_y = bivariate_transform_y(),
+      animate = input$bivariate_animate
     )
   )
 })

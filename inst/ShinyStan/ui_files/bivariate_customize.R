@@ -17,10 +17,19 @@ shinyjs::hidden(
         selectInput(
           "bivariate_options_display",
           label = strongBig("Control"),
-          choices = c("Points", "Ellipse", "Lines"),
+          choices = c("Points", "Ellipse", "Lines","Animate?"),
           selected = "Points",
           width = "50%"
         ), 
+        conditionalPanel(
+          condition="input.bivariate_options_dsiplay== 'Animate?'",
+          fluidRow(
+            column(
+              width=3,
+              checkboxInput("bivariate_animate","Create bivariate graph animation?",value=FALSE)
+            )  
+          )
+        ),
         conditionalPanel(
           condition = "input.bivariate_options_display == 'Points'",
           fluidRow(

@@ -596,7 +596,8 @@ priors <- data.frame(family = c("Normal", "t", "Cauchy", "Beta", "Exponential",
                             lines_alpha,
                             points = TRUE,
                             transform_x = "identity",
-                            transform_y = "identity"
+                            transform_y = "identity",
+                            animate=FALSE
 ){
 
   shape_translator <- function(x) {
@@ -632,10 +633,15 @@ priors <- data.frame(family = c("Normal", "t", "Cauchy", "Beta", "Exponential",
     dat$divergent <- 0
     dat$hit_max_td <- 0
   }
+  if(!animate) {
   graph <- ggplot(dat, aes(x = x, y = y, xend=c(tail(x, n=-1), NA), 
                            yend=c(tail(y, n=-1), NA)))
+  } else {
+    graph <- ggplot(dat, aes(x = x, y = y, xend=c(tail(x, n=-1), NA), 
+                             yend=c(tail(y, n=-1), NA)),frame=1:nrow(dat))
+  }
   
-  if (lines == "hide") {
+  if (lines == "hide" || animate==TRUE) {
     graph <- graph + geom_point(alpha = pt_alpha, size = pt_size, 
                                 shape = shape_translator(pt_shape), 
                                 color = pt_color)
@@ -652,9 +658,14 @@ priors <- data.frame(family = c("Normal", "t", "Cauchy", "Beta", "Exponential",
         geom_path(alpha = lines_alpha, color = lines_color)
     }
   }
-  if (ellipse_lev != "None")
+  # Add extra step to animate the statistical ellipses?
+  if (ellipse_lev != "None") 
     graph <- graph + stat_ellipse(level = as.numeric(ellipse_lev), color = ellipse_color, 
                                   linetype = ellipse_lty, size = ellipse_lwd, alpha = ellipse_alpha)
+#   } else {
+#     graph <- graph + stat_ellipse(level = as.numeric(ellipse_lev), color = ellipse_color, 
+#                                   linetype = ellipse_lty, size = ellipse_lwd, alpha = ellipse_alpha,group=1:nrow(dat))
+#   }
   if (!all(dat$divergent == 0))
     graph <- graph + geom_point(data = subset(dat, divergent == 1), aes(x,y), 
                                 size = pt_size + 0.5, shape = 21, 
@@ -663,7 +674,16 @@ priors <- data.frame(family = c("Normal", "t", "Cauchy", "Beta", "Exponential",
     graph <- graph + geom_point(data = subset(dat, hit_max_td == 1), aes(x,y), 
                                 size = pt_size + 0.5, shape = 21,
                                 color = "#5f4a13", fill = "#eeba30")
-  graph + param_labs + 
+  graph <- graph + param_labs + 
     theme_classic() %+replace% (no_lgnd + axis_labs + fat_axis + axis_color + transparent)
+  
+  # Use the gganimate function to pre-process the bivariate scatterplot, using row number as the time dimension
+  
+  if(animate) {
+    graph <- gganimate::gg_animate(graph)
+    return(graph)
+  } else {
+    return(graph)
+  }
 }
 
